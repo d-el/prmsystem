@@ -19,12 +19,12 @@ struct Token{
 using tokens_t = std::list<Token>;
 
 struct Mask{
-	std::string name;
 	struct Value{
 		Value(std::string n, std::string v): name(n), value(v) {};
 		std::string name;
 		std::string value;
 	};
+	std::string name;
 	std::list<Value> value;
 	std::string type;
 };
@@ -281,11 +281,11 @@ int main(int argc, char *argv[]) {
 	if(mode == "type"){
 		// Mask
 		for(auto text = texts.begin(); text != texts.end(); text++){
-			out << "typedef enum {\n";
+			out << "enum mask_" << text->name << "{\n";
 			for(auto value = text->value.begin(); value != text->value.end(); value++){
 				out << "\t" << value->name << " = " << value->value << ",\n";
 			}
-			out << "} mask" << text->name << "_type;\n\n";
+			out << "};\n\n";
 		}
 
 		for(auto group = parameterstree.begin(); group != parameterstree.end(); group++){
@@ -301,6 +301,18 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(mode == "object"){
+		if(!texts.empty()){
+			for(auto text = texts.begin(); text != texts.end(); text++){
+				if(text->type != "value") continue;
+				out << "const Text<" << text->value.size() << "> " << text->name << " = {\n";
+				for(auto value = text->value.begin(); value != text->value.end(); value++){
+					out << "\t" << value->value << ", \"" << value->name << "\",\n";
+				}
+				out << "};\n";
+			}
+			out << "\n";
+		}
+
 		size_t parameternumber = 0;
 		for(auto group = parameterstree.begin(); group != parameterstree.end(); ){
 			if(group != parameterstree.begin()){
@@ -310,18 +322,22 @@ int main(int argc, char *argv[]) {
 			parameters_t &parameters = group->parameters;
 			for(const auto& param : parameters){
 				int power = std::pow(10, std::stoi(param.pow));
+				const std::string &name = param.name;
+				auto text = std::find_if(texts.begin(), texts.end(),
+						[&name](Mask &m){ return name.find(m.name) != std::string::npos; });
 				out << "const ValHandler<" << param.type << "> handler_" << param.name << "("
 					<< "\"" << param.name << "\", "
 					<< param.unit << ", "
 					<< param.def << "*" << power << ", "
 					<< param.min << "*" << power << ", "
 					<< param.max << "*" << power << ", "
-					<< param.step << ", "
-					<< param.bigstep << ", "
+					<< param.step << "*" << power << ", "
+					<< param.bigstep << "*" << power << ", "
 					<< param.addr << ", "
 					<< param.param << ", "
 					<< param.pow << ", "
 					<< param.callback << ", "
+					<< (text != texts.end() ? '&' + text->name : "NULL") << ", "
 					<< param.savetype
 					<< ");\n";
 

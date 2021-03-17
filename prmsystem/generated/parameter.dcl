@@ -1,4 +1,5 @@
-typedef enum {
+enum mask_dvalue{
+	value0 = 0,
 	value1 = 1,
 	value2 = 2,
 	value3 = 3,
@@ -7,16 +8,16 @@ typedef enum {
 	value6 = 6,
 	value7 = 7,
 	value8 = 8,
-} maskdvalue_type;
+};
 
-typedef enum {
+enum mask_dmask{
 	mask0 = 1,
 	mask1 = 2,
 	mask2 = 8,
 	mask3 = 16,
 	mask4 = 32,
 	mask5 = 64,
-} maskdmask_type;
+};
 
 // Debug
 extern Val<bool> d0;
@@ -28,3 +29,4 @@ extern Val<uint16_t> d5;
 extern Val<int32_t> d6;
 extern Val<uint32_t> d7;
 extern Val<float> d8;
+extern Val<int32_t> dvalue1;

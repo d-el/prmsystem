@@ -1,6 +1,6 @@
 {
 	"text": {
-		"dvalue": { "type": "value", "value": [ { "v": 1, "n": "value1" }, { "v": 2, "n": "value2" }, { "v": 3, "n": "value3" }, { "v": 4, "n": "value4" }, { "v": 5, "n": "value5" }, { "v": 6, "n": "value6" }, { "v": 7, "n": "value7" }, { "v": 8, "n": "value8" } ] },
+		"dvalue": { "type": "value", "value": [ { "v": 0, "n": "value0" }, { "v": 1, "n": "value1" }, { "v": 2, "n": "value2" }, { "v": 3, "n": "value3" }, { "v": 4, "n": "value4" }, { "v": 5, "n": "value5" }, { "v": 6, "n": "value6" }, { "v": 7, "n": "value7" }, { "v": 8, "n": "value8" } ] },
 		"dmask": { "type": "mask", "value": [ { "v": 1, "n": "mask0" }, { "v": 2, "n": "mask1" }, { "v": 8, "n": "mask2" }, { "v": 16, "n": "mask3" }, { "v": 32, "n": "mask4" }, { "v": 64, "n": "mask5" } ] }
 	},
 
@@ -14,7 +14,8 @@
 			"d5": { "unit": "", "format": "uint16_t", "changemode": "chmodRW", "address": "0x0005", "default": "555.5", "min": 0, "max": 6553.5, "power": 1 },
 			"d6": { "unit": "", "format": "int32_t", "changemode": "chmodRW", "address": "0x0006", "default": "-55555.5", "min": 0, "max": 6553.5, "power": 1 },
 			"d7": { "unit": "", "format": "uint32_t", "changemode": "chmodRW", "address": "0x0008", "default": "55555.", "min": 0, "max": 6553.5, "power": 1 },
-			"d8": { "unit": "", "format": "float", "changemode": "chmodRW", "address": "0x000A", "default": "5.5555", "min": -10e6, "max": 10e6, "power": 0 }
+			"d8": { "unit": "", "format": "float", "changemode": "chmodRW", "address": "0x000A", "default": "5.5555", "min": -10e6, "max": 10e6, "power": 0 },
+			"dvalue1": { "unit": "", "format": "int32_t", "changemode": "chmodRW", "address": "0x000C", "default": "0", "min": 0, "max": 8, "power": 0 }
 		}
 	}
 }

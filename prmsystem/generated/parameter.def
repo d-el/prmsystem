@@ -1,32 +1,47 @@
+const Text<9> dvalue = {
+	0, "value0",
+	1, "value1",
+	2, "value2",
+	3, "value3",
+	4, "value4",
+	5, "value5",
+	6, "value6",
+	7, "value7",
+	8, "value8",
+};
+
 // Debug
-const ValHandler<bool> handler_d0("d0", "", 1*1, 0*1, 1*1, 1, 1, 0x0000, 0, 0, NULL, notsave);
+const ValHandler<bool> handler_d0("d0", "", 1*1, 0*1, 1*1, 1*1, 1*1, 0x0000, 0, 0, NULL, NULL, notsave);
 Val<bool> d0(handler_d0);
 
-const ValHandler<char> handler_d1("d1", "", 48*1, 48*1, 90*1, 1, 1, 0x0001, 0, 0, NULL, notsave);
+const ValHandler<char> handler_d1("d1", "", 48*1, 48*1, 90*1, 1*1, 1*1, 0x0001, 0, 0, NULL, NULL, notsave);
 Val<char> d1(handler_d1);
 
-const ValHandler<int8_t> handler_d2("d2", "", 5.5*10, -5.5*10, 5.5*10, 0.1, 1, 0x0002, 0, 1, NULL, notsave);
+const ValHandler<int8_t> handler_d2("d2", "", 5.5*10, -5.5*10, 5.5*10, 0.1*10, 1*10, 0x0002, 0, 1, NULL, NULL, notsave);
 Val<int8_t> d2(handler_d2);
 
-const ValHandler<uint8_t> handler_d3("d3", "", 5.5*10, 0*10, 25.5*10, 0.1, 1, 0x0003, 0, 1, NULL, notsave);
+const ValHandler<uint8_t> handler_d3("d3", "", 5.5*10, 0*10, 25.5*10, 0.1*10, 1*10, 0x0003, 0, 1, NULL, NULL, notsave);
 Val<uint8_t> d3(handler_d3);
 
-const ValHandler<int16_t> handler_d4("d4", "", -555.5*10, -3276.8*10, 3276.7*10, 0.1, 1, 0x0004, 0, 1, NULL, notsave);
+const ValHandler<int16_t> handler_d4("d4", "", -555.5*10, -3276.8*10, 3276.7*10, 0.1*10, 1*10, 0x0004, 0, 1, NULL, NULL, notsave);
 Val<int16_t> d4(handler_d4);
 
-const ValHandler<uint16_t> handler_d5("d5", "", 555.5*10, 0*10, 6553.5*10, 0.1, 1, 0x0005, 0, 1, NULL, notsave);
+const ValHandler<uint16_t> handler_d5("d5", "", 555.5*10, 0*10, 6553.5*10, 0.1*10, 1*10, 0x0005, 0, 1, NULL, NULL, notsave);
 Val<uint16_t> d5(handler_d5);
 
-const ValHandler<int32_t> handler_d6("d6", "", -55555.5*10, 0*10, 6553.5*10, 0.1, 1, 0x0006, 0, 1, NULL, notsave);
+const ValHandler<int32_t> handler_d6("d6", "", -55555.5*10, 0*10, 6553.5*10, 0.1*10, 1*10, 0x0006, 0, 1, NULL, NULL, notsave);
 Val<int32_t> d6(handler_d6);
 
-const ValHandler<uint32_t> handler_d7("d7", "", 55555.*10, 0*10, 6553.5*10, 0.1, 1, 0x0008, 0, 1, NULL, notsave);
+const ValHandler<uint32_t> handler_d7("d7", "", 55555.*10, 0*10, 6553.5*10, 0.1*10, 1*10, 0x0008, 0, 1, NULL, NULL, notsave);
 Val<uint32_t> d7(handler_d7);
 
-const ValHandler<float> handler_d8("d8", "", 5.5555*1, -10e6*1, 10e6*1, 0.01, 1, 0x000A, 0, 0, NULL, notsave);
+const ValHandler<float> handler_d8("d8", "", 5.5555*1, -10e6*1, 10e6*1, 0.01*1, 1*1, 0x000A, 0, 0, NULL, NULL, notsave);
 Val<float> d8(handler_d8);
 
-static const std::array< IVal *, 9> valuearray = {
+const ValHandler<int32_t> handler_dvalue1("dvalue1", "", 0*1, 0*1, 8*1, 1*1, 1*1, 0x000C, 0, 0, NULL, &dvalue, notsave);
+Val<int32_t> dvalue1(handler_dvalue1);
+
+static const std::array< IVal *, 10> valuearray = {
 	&d0,
 	&d1,
 	&d2,
@@ -36,4 +51,5 @@ static const std::array< IVal *, 9> valuearray = {
 	&d6,
 	&d7,
 	&d8,
+	&dvalue1,
 };

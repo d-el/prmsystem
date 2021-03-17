@@ -1,4 +1,4 @@
-﻿/*!****************************************************************************
+/*!****************************************************************************
  * @file		prmSystem.h
  * @author		d_el - Storozhenko Roman
  * @version		V2.0
@@ -12,12 +12,13 @@
 /*!****************************************************************************
  * Include
  */
-#include "stdint.h"
-#include "string.h"
-#include "stdbool.h"
-#include <stddef.h>
+#include <array>
 #include <type_traits>
 #include <cmath>
+#include <stdint.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 namespace Prm {
 
@@ -30,6 +31,33 @@ enum Save: uint8_t{
 	saveuse
 };
 
+class IText{
+public:
+    virtual const char* get(int i) const = 0;
+};
+
+template<size_t n>
+class Text: public IText
+{
+public:
+    template <typename... Types>
+    constexpr Text(Types... ts) : textvalues{ { ts... } } {}
+
+    const char* get(int i) const {
+        for(auto &t : textvalues){
+            if(t.v == i) return t.t;
+        }
+        return nullptr;
+    }
+
+private:
+    struct TextVal{
+        int v;
+        const char *t;
+    };
+    const std::array<TextVal, n> textvalues;
+};
+
 template <class T> class ValHandler
 {
 public:
@@ -37,7 +65,7 @@ public:
 			const char *_label, const char *_units,
 			T _def, T _min, T _max, T _step, T _bigstep,
 			uint16_t _addr, uint16_t _arg, uint16_t _power,
-			void (*_callback)(const ValHandler& prm, bool read, void *arg),
+			void (*_callback)(const ValHandler& prm, bool read, void *arg), const IText *_text,
 			Save _save) :
 		label(_label),
 		units(_units),
@@ -49,8 +77,9 @@ public:
 		addr(_addr),
 		arg(_arg),
 		power(_power),
+		save(_save),
 		callback(_callback),
-		save(_save)
+		text(_text)
 	{};
 
 	const char *label;
@@ -66,6 +95,7 @@ public:
 	const uint8_t power :4;
 	const Save save;
 	void (*callback)(const ValHandler& prm, bool read, void *arg);
+	const IText *text;
 };
 
 class IVal{
@@ -95,15 +125,11 @@ public:
 	}
 
 	void step(int32_t step){
-		val += handler.step * step;
-		if(val > handler.max) val = handler.max;
-		if(val < handler.min) val = handler.min;
+		stepsize(step, handler.step);
 	}
 
 	void bigstep(int32_t step){
-		val += handler.bigstep * step;
-		if(val > handler.max) val = handler.max;
-		if(val < handler.min) val = handler.min;
+		stepsize(step, handler.bigstep);
 	}
 
 	const char* getlabel() const {
@@ -148,6 +174,18 @@ public:
 	size_t tostring(char *string, size_t size) const;
 
 private:
+	void stepsize(int32_t step, T stepsize){
+		T result = stepsize * abs(step);
+		if(step < 0)
+			val = result > val - handler.min
+				? handler.min
+				: val - result;
+		else
+			val = result > handler.max - val
+				? handler.max
+				: val + result;
+	}
+
 	size_t uprintval(char *string, size_t size, uint8_t power, uint32_t var) const;
 	size_t iprintval(char *string, size_t size, uint8_t power, int32_t var) const;
 
@@ -157,6 +195,9 @@ public:
 };
 
 IVal *getbyaddress(uint16_t address);
+size_t getSerialSize(Save save);
+bool serialize(Save save, uint8_t *dst);
+bool deserialize(Save save, const uint8_t *src, size_t size);
 
 #include "parameter.dcl"
 
