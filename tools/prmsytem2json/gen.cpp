@@ -302,6 +302,7 @@ int main(int argc, char *argv[]) {
 
 	if(mode == "object"){
 		if(!texts.empty()){
+			out << "namespace nmText {\n";
 			for(auto text = texts.begin(); text != texts.end(); text++){
 				if(text->type != "value") continue;
 				out << "const Text<" << text->value.size() << "> " << text->name << " = {\n";
@@ -310,6 +311,7 @@ int main(int argc, char *argv[]) {
 				}
 				out << "};\n";
 			}
+			out << "}\n";
 			out << "\n";
 		}
 
@@ -324,7 +326,7 @@ int main(int argc, char *argv[]) {
 				int power = std::pow(10, std::stoi(param.pow));
 				const std::string &name = param.name;
 				auto text = std::find_if(texts.begin(), texts.end(),
-						[&name](Mask &m){ return name.find(m.name) != std::string::npos; });
+						[&name](Mask &m){ return name.find(m.name) != std::string::npos && m.type == "value"; });
 				out << "const ValHandler<" << param.type << "> handler_" << param.name << "("
 					<< "\"" << param.name << "\", "
 					<< param.unit << ", "
@@ -334,10 +336,10 @@ int main(int argc, char *argv[]) {
 					<< param.step << "*" << power << ", "
 					<< param.bigstep << "*" << power << ", "
 					<< param.addr << ", "
-					<< param.param << ", "
+					<< "reinterpret_cast<void*>(" << param.param << "), "
 					<< param.pow << ", "
 					<< param.callback << ", "
-					<< (text != texts.end() ? '&' + text->name : "NULL") << ", "
+					<< (text != texts.end() ? "&nmText::" + text->name : "nullptr") << ", "
 					<< param.savetype
 					<< ");\n";
 

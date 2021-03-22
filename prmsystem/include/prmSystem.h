@@ -58,14 +58,16 @@ private:
     const std::array<TextVal, n> textvalues;
 };
 
+template <class T> class Val;
+
 template <class T> class ValHandler
 {
 public:
 	constexpr ValHandler(
 			const char *_label, const char *_units,
 			T _def, T _min, T _max, T _step, T _bigstep,
-			uint16_t _addr, uint16_t _arg, uint16_t _power,
-			void (*_callback)(const ValHandler& prm, bool read, void *arg), const IText *_text,
+			uint16_t _addr, void* _arg, uint16_t _power,
+			void (*_callback)(Val<T>& prm, bool read, void *arg), const IText *_text,
 			Save _save) :
 		label(_label),
 		units(_units),
@@ -91,10 +93,10 @@ public:
 	const T bigstep;
 	const uint16_t addr;
 	constexpr static size_t size = sizeof(T);
-	const uint16_t arg;
+	void *const arg;
 	const uint8_t power :4;
 	const Save save;
-	void (*callback)(const ValHandler& prm, bool read, void *arg);
+	void (*callback)(Val<T>& prm, bool read, void *arg);
 	const IText *text;
 };
 
@@ -111,6 +113,7 @@ public:
 	virtual void serialize(void *dst) const = 0;
 	virtual bool deserialize(const void *src) = 0;
 	virtual size_t tostring(char *string, size_t size) const = 0;
+	virtual void operator()(bool read, void *arg) = 0;
 };
 
 template <class T> class Val: public IVal
@@ -172,6 +175,20 @@ public:
 	}
 
 	size_t tostring(char *string, size_t size) const;
+
+	void operator()(bool read, void *arg){
+		if(handler.callback) handler.callback(*this, read, arg);
+	}
+
+	void operator=(T v){
+		val = v;
+		if(handler.callback) handler.callback(*this, false, nullptr);
+	}
+
+	operator T(){
+		if(handler.callback) handler.callback(*this, true, nullptr);
+		return val;
+	}
 
 private:
 	void stepsize(int32_t step, T stepsize){
