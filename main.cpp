@@ -7,9 +7,17 @@ int main(){
 	char str[128];
 
 	std::cout << std::boolalpha;
+
+	std::cout << "----\n";
 	std::cout << "default: " << Prm::d8 << '\n';
 	Prm::d8.step(1);
 	std::cout << "after step: " << Prm::d8 << '\n';
+
+	std::cout << "----\n";
+	std::cout << "default: " << Prm::d7.val << '\n';
+	std::cout << ": " << Prm::d7 << '\n';
+	std::cout << ": " << Prm::d7 << '\n';
+	std::cout << ": " << Prm::d7 << '\n';
 
 	std::cout << "----\n";
 	uint8_t buffer[4];
@@ -38,9 +46,9 @@ int main(){
 
 	std::cout << "----\n";
 	for(int i = 0; i < 10; i++){
-		Prm::dvalue1.tostring(str, sizeof(str));
-		std::cout << Prm::dvalue1.getlabel() << ": '" << str << "'\n";
-		Prm::dvalue1.step(1);
+		Prm::dvalue.tostring(str, sizeof(str));
+		std::cout << Prm::dvalue.getlabel() << ": '" << str << "'\n";
+		Prm::dvalue.step(1);
 	}
 
 	std::cout << "----\n";
@@ -52,8 +60,11 @@ int main(){
 			std::cout << "[" << i << "] " << p->getlabel() << ": " << str << " " << p->getunit() << '\n';
 		}
 	}
-	std::cout << "----\n";
 
+	std::cout << "----\n";
+	std::cout << "get argument parameter d0: " << reinterpret_cast<size_t>(Prm::d0.getarg()) << "\n";
+
+	std::cout << "----\n";
 	std::cout << "exit\n";
 	return 0;
 }

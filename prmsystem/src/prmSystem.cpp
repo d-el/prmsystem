@@ -14,8 +14,9 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdlib.h>
-#include "crc.h"
+#include <crc.h>
 #include "prmSystem.h"
+#include "prmSystemCallback.h"
 
 namespace Prm {
 

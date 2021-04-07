@@ -18,6 +18,8 @@
  * Function declaration
  */
 
+void d7CallBack(Prm::Val<uint32_t>& prm, bool read, void *arg);
+
 #endif //prmSystemCallback_H
 
 /***************** Copyright (C) Storozhenko Roman ******* END OF FILE *******/

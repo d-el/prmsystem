@@ -108,6 +108,7 @@ public:
 	virtual const char* getlabel() const = 0;
 	virtual const char* getunit() const = 0;
 	virtual size_t getsize() const = 0;
+	virtual void* getarg() const = 0;
 	virtual uint16_t getaddress() const = 0;
 	virtual Save getsave() const = 0;
 	virtual void serialize(void *dst) const = 0;
@@ -145,6 +146,10 @@ public:
 
 	size_t getsize() const {
 		return handler.size;
+	}
+
+	void* getarg() const {
+		return handler.arg;
 	}
 
 	uint16_t getaddress() const {
@@ -208,6 +213,8 @@ private:
 
 public:
 	T val;
+
+private:
 	const ValHandler<T> &handler;
 };
 

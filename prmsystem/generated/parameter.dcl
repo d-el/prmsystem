@@ -29,4 +29,4 @@ extern Val<uint16_t> d5;
 extern Val<int32_t> d6;
 extern Val<uint32_t> d7;
 extern Val<float> d8;
-extern Val<int32_t> dvalue1;
+extern Val<int32_t> dvalue;

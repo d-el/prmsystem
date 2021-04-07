@@ -15,7 +15,7 @@
 			"d6": { "unit": "", "format": "int32_t", "changemode": "chmodRW", "address": "0x0006", "default": "-55555.5", "min": 0, "max": 6553.5, "power": 1 },
 			"d7": { "unit": "", "format": "uint32_t", "changemode": "chmodRW", "address": "0x0008", "default": "55555.", "min": 0, "max": 6553.5, "power": 1 },
 			"d8": { "unit": "", "format": "float", "changemode": "chmodRW", "address": "0x000A", "default": "5.5555", "min": -10e6, "max": 10e6, "power": 0 },
-			"dvalue1": { "unit": "", "format": "int32_t", "changemode": "chmodRW", "address": "0x000C", "default": "0", "min": 0, "max": 8, "power": 0 }
+			"dvalue": { "unit": "", "format": "int32_t", "changemode": "chmodRW", "address": "0x000C", "default": "0", "min": 0, "max": 8, "power": 0 }
 		}
 	}
 }

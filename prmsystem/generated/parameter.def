@@ -34,14 +34,14 @@ Val<uint16_t> d5(handler_d5);
 const ValHandler<int32_t> handler_d6("d6", "", -55555.5*10, 0*10, 6553.5*10, 0.1*10, 1*10, 0x0006, reinterpret_cast<void*>(0), 1, NULL, nullptr, notsave);
 Val<int32_t> d6(handler_d6);
 
-const ValHandler<uint32_t> handler_d7("d7", "", 55555.*10, 0*10, 6553.5*10, 0.1*10, 1*10, 0x0008, reinterpret_cast<void*>(0), 1, NULL, nullptr, notsave);
+const ValHandler<uint32_t> handler_d7("d7", "", 55555.*10, 0*10, 6553.5*10, 0.1*10, 1*10, 0x0008, reinterpret_cast<void*>(5), 1, d7CallBack, nullptr, notsave);
 Val<uint32_t> d7(handler_d7);
 
 const ValHandler<float> handler_d8("d8", "", 5.5555*1, -10e6*1, 10e6*1, 0.01*1, 1*1, 0x000A, reinterpret_cast<void*>(0), 0, NULL, nullptr, notsave);
 Val<float> d8(handler_d8);
 
-const ValHandler<int32_t> handler_dvalue1("dvalue1", "", 0*1, 0*1, 8*1, 1*1, 1*1, 0x000C, reinterpret_cast<void*>(0), 0, NULL, &nmText::dvalue, notsave);
-Val<int32_t> dvalue1(handler_dvalue1);
+const ValHandler<int32_t> handler_dvalue("dvalue", "", 0*1, 0*1, 8*1, 1*1, 1*1, 0x000C, reinterpret_cast<void*>(0), 0, NULL, &nmText::dvalue, notsave);
+Val<int32_t> dvalue(handler_dvalue);
 
 static const std::array< IVal *, 10> valuearray = {
 	&d0,
@@ -53,5 +53,5 @@ static const std::array< IVal *, 10> valuearray = {
 	&d6,
 	&d7,
 	&d8,
-	&dvalue1,
+	&dvalue,
 };
