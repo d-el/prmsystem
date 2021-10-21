@@ -125,16 +125,11 @@ plog_vprintf_type plog_setVprintf(plog_vprintf_type func);
 plog_write_type plog_setWrite(plog_write_type func);
 int plog_setWriteFd(int fd);
 plog_timestamp_type plog_setTimestamp(plog_timestamp_type func);
-
 int plog_write(plog_level_t level, const char* tag, const char* format, ...) __attribute__ ((format (printf, 3, 4)));
-//void plog_printf(const char* format, ...) /*__attribute__ ((format (printf, 1, 2)))*/;
-//#define plog_printf(format, ...)  plog_write(P_LOG_VERBOSE, NULL, format)
-
-//#define plog_printf(format, ...)  plog_write(0, 0, format, ##__VA_ARGS__)
-
-int plog_printf(const char* format, ...);
-
+int plog_printf(const char* format, ...) __attribute__ ((format (printf, 1, 2)));
 uint32_t plog_timestamp(void);
+void hexdump(const void *buffer, size_t length);
+void hexdumpcolumn(const void *buffer, size_t length, size_t column);
 
 #ifdef __cplusplus
 }

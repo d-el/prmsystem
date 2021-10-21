@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 
-PROJECT(prmsystem CXX C ASM)
+PROJECT(prmsystem CXX C)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
 set(COMMONFLAGS "\
 	-g3 -O2 \
@@ -14,8 +15,8 @@ set(COMMONFLAGS "\
 	-Wuninitialized \
 	")
 
-set(CMAKE_CXX_FLAGS "${CPUFLAGS} ${COMMONFLAGS} -std=c++17 -fno-rtti -fno-exceptions")
-set(CMAKE_C_FLAGS "${CPUFLAGS} ${COMMONFLAGS} -std=gnu11")
+set(CMAKE_CXX_FLAGS "${CPUFLAGS} ${COMMONFLAGS} -fno-rtti -fno-exceptions")
+set(CMAKE_C_FLAGS "${CPUFLAGS} ${COMMONFLAGS}")
 	
 set(CMAKE_EXE_LINKER_FLAGS "\
 	${CPUFLAGS} \
