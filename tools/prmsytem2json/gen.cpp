@@ -114,19 +114,6 @@ inline std::string pad_right(const std::string&     str,
     return str + std::string(min_length - str.length(), pad_char);
 }
 
-inline void tokenize(std::string source) {
-    std::cout << source << "\n\n";
-    bool quote_opened = false;
-    while(!source.empty()) {
-        const char* delimiter_set = quote_opened ? "'" : ",:{}";
-        char delimiter;
-        auto token = get_to(source, delimiter_set, delimiter);
-        quote_opened = delimiter == '\'' && !quote_opened;
-        std::cout << "    " << pad_right('[' + token + ']', 16)
-            << "   " << delimiter << '\n';
-    }
-    std::cout << '\n';
-}
 }
 
 int main(int argc, char *argv[]) {
@@ -134,6 +121,7 @@ int main(int argc, char *argv[]) {
     std::string fileName = argv[1];
     std::string outfileName = argv[2];
     std::string mode = argv[3];
+    std::cout << "generate '" << mode << "' > " << outfileName << "\n";
 
     // Read file
 	std::ifstream file(fileName.c_str());
@@ -161,7 +149,6 @@ int main(int argc, char *argv[]) {
         quote_opened = delimiter == '\'' && !quote_opened;
         tokens.push_back(Token(token, delimiter));
     }
-    std::cout << '\n';
 
     // Parse
     masks_t texts;

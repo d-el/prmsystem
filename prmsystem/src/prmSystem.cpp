@@ -24,55 +24,6 @@ constexpr uint16_t magic = 0x2805;
 
 #include "parameter.def"
 
-IVal *getbyaddress(uint16_t address){
-	for(auto *p : valuearray){
-		if(address == p->getaddress()){
-			return p;
-		}
-	}
-	return nullptr;
-}
-
-size_t getSerialSize(Save save){
-	size_t size = 0;
-	for(auto *p : valuearray){
-		if(save == p->getsave()){
-			size += p->getsize();
-		}
-	}
-	return size + sizeof(magic) + sizeof(crc_t);
-}
-
-bool serialize(Save save, uint8_t *dst){
-	const uint8_t *dstentry = dst;
-	memcpy(dst, &magic, sizeof(magic));
-	dst += sizeof(magic);
-	for(auto *p : valuearray){
-		if(save == p->getsave()){
-			p->serialize(dst);
-			dst += p->getsize();
-		}
-	}
-	crc_t crc = crc16Calc(&crcModBus, dstentry, dst - dstentry);
-	memcpy(dst, &crc, sizeof(crc));
-	return true;
-}
-
-bool deserialize(Save save, const uint8_t *src, size_t size){
-	std::remove_cv_t<decltype(magic)> readmagic;
-	memcpy(&readmagic, src, sizeof(readmagic));
-	if(readmagic != magic) return false;
-	if(crc16Calc(&crcModBus, src, size)) return false;
-	src += sizeof(magic);
-	for(auto *p : valuearray){
-		if(save == p->getsave()){
-			p->deserialize(src);
-			src += p->getsize();
-		}
-	}
-	return true;
-}
-
 template<class T>
 bool Val<T>::deserialize(const void *src){
 	T v = 0;
@@ -143,6 +94,55 @@ size_t Val<float>::tostring(char *string, size_t size) const{
 	auto result = gcvt(val, 6, string);
 	(void)result;
 	return strlen(string);
+}
+
+IVal *getbyaddress(uint16_t address){
+	for(auto *p : valuearray){
+		if(address == p->getaddress()){
+			return p;
+		}
+	}
+	return nullptr;
+}
+
+size_t getSerialSize(Save save){
+	size_t size = 0;
+	for(auto *p : valuearray){
+		if(save == p->getsave()){
+			size += p->getsize();
+		}
+	}
+	return size + sizeof(magic) + sizeof(crc_t);
+}
+
+bool serialize(Save save, uint8_t *dst){
+	const uint8_t *dstentry = dst;
+	memcpy(dst, &magic, sizeof(magic));
+	dst += sizeof(magic);
+	for(auto *p : valuearray){
+		if(save == p->getsave()){
+			p->serialize(dst);
+			dst += p->getsize();
+		}
+	}
+	crc_t crc = crc16Calc(&crcModBus, dstentry, dst - dstentry);
+	memcpy(dst, &crc, sizeof(crc));
+	return true;
+}
+
+bool deserialize(Save save, const uint8_t *src, size_t size){
+	std::remove_cv_t<decltype(magic)> readmagic;
+	memcpy(&readmagic, src, sizeof(readmagic));
+	if(readmagic != magic) return false;
+	if(crc16Calc(&crcModBus, src, size)) return false;
+	src += sizeof(magic);
+	for(auto *p : valuearray){
+		if(save == p->getsave()){
+			p->deserialize(src);
+			src += p->getsize();
+		}
+	}
+	return true;
 }
 
 } // namespace Prm
